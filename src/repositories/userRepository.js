@@ -7,8 +7,8 @@ const findByEmail = async (email) => {
     email,
   ]);
 
-  const { rows: existingUsers } = await connection.query(query);
-  return existingUsers;
+  const { rows: users } = await connection.query(query);
+  return users[0];
 };
 
 const create = async ({ name, email, password }) => {
