@@ -12,11 +12,34 @@ const shortenUrl = async (req, res) => {
   try {
     await urlsRepository.createUrl({ url, shortUrl, userId });
 
-    res.status(201).json({ shortUrl });
+    return res.status(201).json({ shortUrl });
   } catch (error) {
     console.log(chalk.red(error));
-    res.status(500).send(error);
+    return res.status(500).json({
+      error: "Something went wrong",
+    });
   }
 };
 
-export { shortenUrl };
+const getUrlById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const url = await urlsRepository.getUrlById(id);
+
+    if (!url) {
+      return res.status(404).json({
+        error: "Url not found",
+      });
+    }
+
+    return res.status(200).json(url);
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(500).json({
+      error: "Something went wrong",
+    });
+  }
+};
+
+export { shortenUrl, getUrlById };
