@@ -21,4 +21,13 @@ const getUrlById = async (id) => {
   return urls[0];
 };
 
-export { createUrl, getUrlById };
+const getUrlByShortUrl = async (shortUrl) => {
+  const query = SqlString.format(`SELECT url FROM urls WHERE "shortUrl" = ?`, [
+    shortUrl,
+  ]);
+
+  const { rows: urls } = await connection.query(query);
+  return urls[0];
+};
+
+export { createUrl, getUrlById, getUrlByShortUrl };

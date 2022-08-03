@@ -42,4 +42,25 @@ const getUrlById = async (req, res) => {
   }
 };
 
-export { shortenUrl, getUrlById };
+const openUrl = async (req, res) => {
+  const { shortUrl } = req.params;
+
+  try {
+    const url = await urlsRepository.getUrlByShortUrl(shortUrl);
+
+    if (!url) {
+      return res.status(404).json({
+        error: "Url not found",
+      });
+    }
+
+    return res.status(200).redirect(url.url);
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(500).json({
+      error: "Something went wrong",
+    });
+  }
+};
+
+export { shortenUrl, getUrlById, openUrl };
