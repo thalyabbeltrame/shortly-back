@@ -13,7 +13,7 @@ const createUrl = async ({ url, shortUrl, userId }) => {
 
 const getUrlById = async (id) => {
   const query = SqlString.format(
-    `SELECT id, url, "shortUrl" FROM urls WHERE id = ?`,
+    `SELECT id, url, "shortUrl", "userId" FROM urls WHERE id = ?`,
     [id]
   );
 
@@ -39,4 +39,16 @@ const incrementVisitCount = async (shortUrl) => {
   await connection.query(query);
 };
 
-export { createUrl, getUrlById, getUrlByShortUrl, incrementVisitCount };
+const deleteUrl = async (id) => {
+  const query = SqlString.format(`DELETE FROM urls WHERE id = ?`, [id]);
+
+  await connection.query(query);
+};
+
+export {
+  createUrl,
+  getUrlById,
+  getUrlByShortUrl,
+  incrementVisitCount,
+  deleteUrl,
+};
