@@ -9,8 +9,12 @@
     "start": "NODE_ENV=prod node ./src/index.js",
     "dev": "NODE_ENV=dev nodemon ./src/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Express",
+    "NodeJS",
+    "Backend"
+  ],
+  "author": "Thalya Busato Beltrame",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",

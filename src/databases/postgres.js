@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import pg from "pg";
 
-import "./config/index.js";
+import "../config/index.js";
 
 const { Pool } = pg;
 
@@ -16,9 +16,9 @@ const connection = new Pool({
 
 try {
   connection.connect();
-  console.log(chalk.green("\nConnected to Postgres"));
+  console.log(chalk.blue.bold("\nConnected to Postgres..."));
 } catch (error) {
-  console.log(chalk.red("\nError connecting to Postgres"));
+  console.log(chalk.red.bold("\nError connecting to Postgres..."));
 }
 
 export default connection;

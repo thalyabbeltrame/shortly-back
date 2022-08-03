@@ -6,5 +6,5 @@ import app from "./app.js";
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
-  console.log(chalk.bgGreen.black.bold(`\nServer running on port ${port}`));
+  console.log(chalk.green.bold(`Server running on port ${port}...`));
 });
