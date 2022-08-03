@@ -54,6 +54,8 @@ const openUrl = async (req, res) => {
       });
     }
 
+    await urlsRepository.incrementVisitCount(shortUrl);
+
     return res.status(200).redirect(url.url);
   } catch (error) {
     console.log(chalk.red(error));

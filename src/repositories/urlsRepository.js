@@ -30,4 +30,13 @@ const getUrlByShortUrl = async (shortUrl) => {
   return urls[0];
 };
 
-export { createUrl, getUrlById, getUrlByShortUrl };
+const incrementVisitCount = async (shortUrl) => {
+  const query = SqlString.format(
+    `UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE "shortUrl" = ?`,
+    [shortUrl]
+  );
+
+  await connection.query(query);
+};
+
+export { createUrl, getUrlById, getUrlByShortUrl, incrementVisitCount };
