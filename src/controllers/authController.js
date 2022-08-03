@@ -3,13 +3,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import "../config/index.js";
-import * as userRepository from "../repositories/userRepository.js";
+import * as usersRepository from "../repositories/usersRepository.js";
 
 const signUp = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const user = await userRepository.findByEmail(email);
+    const user = await usersRepository.getUserByEmail(email);
     if (user) {
       return res.status(409).json({
         error: `Email ${email} already exists`,
@@ -18,7 +18,7 @@ const signUp = async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
-    await userRepository.create({
+    await usersRepository.createUser({
       name,
       email,
       password: hashedPassword,
@@ -37,17 +37,17 @@ const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await userRepository.findByEmail(email);
+    const user = await usersRepository.getUserByEmail(email);
     if (user.length === 0) {
       return res.status(401).json({
-        error: `Email ${email} not found`,
+        error: `Email or password is incorrect`,
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
-        error: "Invalid password",
+        error: "Email or password is incorrect",
       });
     }
 
