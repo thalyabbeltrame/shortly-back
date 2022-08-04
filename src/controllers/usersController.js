@@ -23,4 +23,16 @@ const getUserUrls = async (_req, res) => {
   }
 };
 
-export { getUserUrls };
+const getRanking = async (_req, res) => {
+  try {
+    const ranking = await usersRepository.getRanking();
+    return res.status(200).json(ranking);
+  } catch (error) {
+    console.log(chalk.red(error));
+    return res.status(500).json({
+      error: "Something went wrong",
+    });
+  }
+};
+
+export { getUserUrls, getRanking };

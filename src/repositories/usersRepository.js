@@ -52,4 +52,24 @@ const getUserUrls = async (userId) => {
   return userUrls[0];
 };
 
-export { createUser, getUserByEmail, getUserById, getUserUrls };
+const getRanking = async () => {
+  const query = SqlString.format(
+    `
+      SELECT
+        users.id AS id,
+        users.name AS name,
+        COALESCE(COUNT(urls.id),0)::double precision AS "linksCount",
+        COALESCE(SUM(urls."visitCount"),0)::double precision AS "visitCount"
+      FROM users
+      LEFT JOIN urls ON users.id = urls."userId"
+      GROUP BY users.id, users.name
+      ORDER BY "visitCount" DESC
+      LIMIT 10
+    `
+  );
+
+  const { rows: ranking } = await connection.query(query);
+  return ranking;
+};
+
+export { createUser, getUserByEmail, getUserById, getUserUrls, getRanking };
