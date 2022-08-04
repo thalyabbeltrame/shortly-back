@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import jwt from "jsonwebtoken";
 
 import "../config/index.js";
@@ -6,7 +7,7 @@ import * as usersRepository from "../repositories/usersRepository.js";
 
 const validateToken = async (req, res, next) => {
   const { authorization } = req.headers;
-  if (!authorization) {
+  if (!authorization || !authorization.startsWith("Bearer ")) {
     return res.status(401).json({
       error: "Unauthorized",
     });
@@ -26,6 +27,7 @@ const validateToken = async (req, res, next) => {
     res.locals.userId = user.id;
     return next();
   } catch (error) {
+    console.log(chalk.red(error));
     return res.status(500).json({
       error: "Something went wrong",
     });
