@@ -33,7 +33,7 @@ const getUserUrls = async (userId) => {
       SELECT 
         users.id AS id,
         users.name AS name,
-        SUM(urls."visitCount")::double precision AS "visitCount",
+        SUM(urls."visitCount")::int AS "visitCount",
         json_agg(json_build_object(
           'id', urls.id,
           'url', urls.url,
@@ -58,8 +58,8 @@ const getRanking = async () => {
       SELECT
         users.id AS id,
         users.name AS name,
-        COALESCE(COUNT(urls.id),0)::double precision AS "linksCount",
-        COALESCE(SUM(urls."visitCount"),0)::double precision AS "visitCount"
+        COUNT(urls.id)::int AS "linksCount",
+        COALESCE(SUM(urls."visitCount"),0)::int AS "visitCount"
       FROM users
       LEFT JOIN urls ON users.id = urls."userId"
       GROUP BY users.id, users.name
