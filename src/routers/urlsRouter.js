@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { validateSchema } from "../middlewares/sharedMiddleware.js";
 
 import {
   shortenUrl,
@@ -9,6 +8,8 @@ import {
 } from "../controllers/urlsController.js";
 
 import { validateToken } from "../middlewares/tokenMiddleware.js";
+import { validateBody } from "../middlewares/bodyMiddleware.js";
+import { sanitizeDatas } from "../middlewares/sanitizeMiddleware.js";
 
 import { urlSchema } from "../schemas/urlSchema.js";
 
@@ -17,7 +18,8 @@ const urlsRouter = Router();
 urlsRouter.post(
   "/shorten",
   validateToken,
-  validateSchema(urlSchema),
+  validateBody(urlSchema),
+  sanitizeDatas,
   shortenUrl
 );
 urlsRouter.get("/:id", getUrlById);

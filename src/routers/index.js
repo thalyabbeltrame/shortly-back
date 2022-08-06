@@ -6,7 +6,7 @@ import usersRouter from "./usersRouter.js";
 
 const router = Router();
 
-router.use(authRouter);
+router.use("/", authRouter);
 router.use("/urls", urlsRouter);
 router.use("/", usersRouter);
 

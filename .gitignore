@@ -1,4 +1,4 @@
 /node_modules
 .wakatime-project
-.env.prod
+.env
 .env.dev

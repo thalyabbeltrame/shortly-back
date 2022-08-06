@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import jwt from "jsonwebtoken";
 
 import "../config/index.js";
@@ -27,7 +26,6 @@ const validateToken = async (req, res, next) => {
     res.locals.userId = user.id;
     return next();
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
       error: "Something went wrong",
     });

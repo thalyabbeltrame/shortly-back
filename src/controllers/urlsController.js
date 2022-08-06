@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import { nanoid } from "nanoid";
 
 import "../config/index.js";
@@ -14,9 +13,8 @@ const shortenUrl = async (req, res) => {
 
     return res.status(201).json({ shortUrl });
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };
@@ -36,9 +34,8 @@ const getUrlById = async (req, res) => {
 
     return res.status(200).json(url);
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };
@@ -59,9 +56,8 @@ const openUrl = async (req, res) => {
 
     return res.status(200).redirect(url.url);
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };
@@ -89,9 +85,8 @@ const deleteUrl = async (req, res) => {
 
     return res.sendStatus(204);
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };

@@ -1,5 +1,3 @@
-import chalk from "chalk";
-
 import * as usersRepository from "../repositories/usersRepository.js";
 
 const getUserUrls = async (_req, res) => {
@@ -16,9 +14,8 @@ const getUserUrls = async (_req, res) => {
     const userUrls = await usersRepository.getUserUrls(userId);
     return res.status(200).json(userUrls);
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };
@@ -28,9 +25,8 @@ const getRanking = async (_req, res) => {
     const ranking = await usersRepository.getRanking();
     return res.status(200).json(ranking);
   } catch (error) {
-    console.log(chalk.red(error));
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };
