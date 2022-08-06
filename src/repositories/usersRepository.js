@@ -33,17 +33,20 @@ const getUserUrls = async (userId) => {
       SELECT 
         users.id AS id,
         users.name AS name,
-        SUM(urls."visitCount")::int AS "visitCount",
-        json_agg(json_build_object(
-          'id', urls.id,
-          'url', urls.url,
-          'shortUrl', urls."shortUrl",
-          'visitCount', urls."visitCount"
-      )) AS "shortenedUrls"
+        COALESCE(SUM(urls."visitCount"),0)::int AS "visitCount",
+        CASE WHEN urls."userId" IS NOT NULL THEN 
+          json_agg(json_build_object(
+            'id', urls.id,
+            'url', urls.url,
+            'shortUrl', urls."shortUrl",
+            'visitCount', urls."visitCount"
+          )) 
+        ELSE '[]'::json
+        END AS "shortenedUrls"
       FROM users 
       LEFT JOIN urls ON users.id = urls."userId"
       WHERE users.id = ?
-      GROUP BY users.id, users.name
+      GROUP BY users.id, urls."userId"
     `,
     [userId]
   );

@@ -24,10 +24,11 @@ const validateToken = async (req, res, next) => {
     }
 
     res.locals.userId = user.id;
+
     return next();
   } catch (error) {
     return res.status(500).json({
-      error: "Something went wrong",
+      error: error.message,
     });
   }
 };

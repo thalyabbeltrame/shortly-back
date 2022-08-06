@@ -5,6 +5,7 @@ const validateBody = (schema) => (req, res, next) => {
       error: error.details.map(({ message }) => message),
     });
   }
+
   return next();
 };
 

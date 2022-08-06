@@ -23,13 +23,14 @@ const getUrlById = async (req, res) => {
 
   try {
     const url = await urlsRepository.getUrlById(id);
-    delete url.userId;
 
     if (!url) {
       return res.status(404).json({
         error: "Url not found",
       });
     }
+
+    delete url.userId;
 
     return res.status(200).json(url);
   } catch (error) {
