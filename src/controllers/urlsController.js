@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid";
 
-import "../config/index.js";
 import * as urlsRepository from "../repositories/urlsRepository.js";
 
 const shortenUrl = async (req, res) => {
@@ -45,7 +44,6 @@ const openUrl = async (req, res) => {
 
   try {
     const url = await urlsRepository.getUrlByShortUrl(shortUrl);
-
     if (!url) {
       return res.status(404).json({
         error: "Url not found",

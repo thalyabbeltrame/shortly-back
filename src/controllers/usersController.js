@@ -12,6 +12,7 @@ const getUserUrls = async (_req, res) => {
     }
 
     const userUrls = await usersRepository.getUserUrls(userId);
+
     return res.status(200).json(userUrls);
   } catch (error) {
     return res.status(500).json({
@@ -23,6 +24,7 @@ const getUserUrls = async (_req, res) => {
 const getRanking = async (_req, res) => {
   try {
     const ranking = await usersRepository.getRanking();
+
     return res.status(200).json(ranking);
   } catch (error) {
     return res.status(500).json({

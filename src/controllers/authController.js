@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
-import "../config/index.js";
 import * as usersRepository from "../repositories/usersRepository.js";
+import createToken from "../utils/createToken.js";
 
 const signUp = async (req, res) => {
   const { name, email, password } = req.body;
@@ -49,9 +48,7 @@ const signIn = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+    const token = createToken(user.id);
 
     return res.status(200).json({
       token,
