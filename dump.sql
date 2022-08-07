@@ -29,7 +29,7 @@ CREATE TABLE public.urls (
     url text NOT NULL,
     "shortUrl" character varying(8) NOT NULL,
     "visitCount" integer DEFAULT 0,
-    "createdAt" timestamp without time zone DEFAULT now(),
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
     "userId" integer NOT NULL
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE public.users (
     name text NOT NULL,
     email text NOT NULL,
     password text NOT NULL,
-    "createAt" timestamp without time zone DEFAULT now()
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -114,9 +114,10 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 --
 
 COPY public.urls (id, url, "shortUrl", "visitCount", "createdAt", "userId") FROM stdin;
-1	https://www.mongodb.com/	xhtM1YuF	3	2022-08-06 11:22:17.305242	3
-2	https://www.postgresql.org/	SJM_isJc	2	2022-08-06 11:24:47.286015	4
-3	https://pt-br.reactjs.org/	fzmwCZyC	0	2022-08-06 11:25:37.685134	4
+2	https://www.postgresql.org/	j6ARTlgf	0	2022-08-07 10:13:54.350407	5
+3	https://www.driven.com.br/	1rZ90sNO	0	2022-08-07 10:15:20.835487	1
+1	https://www.google.com.br/	z1SuOxYo	2	2022-08-07 10:11:50.482532	5
+4	https://www.mongodb.com/atlas/database	1hekDcEN	1	2022-08-07 10:16:50.646735	2
 \.
 
 
@@ -124,12 +125,12 @@ COPY public.urls (id, url, "shortUrl", "visitCount", "createdAt", "userId") FROM
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, password, "createAt") FROM stdin;
-1	Ana Júlia	ana.julia@gmail.com	$2b$10$.wUpNDhvdjhuXuQ7c4JxAeH0dqq3iMlYbboI/tDk.SWtGals9PXRO	2022-08-05 23:13:01.974677
-2	Bernardo	bernardo@gmail.com	$2b$10$wfAPIHB93L34oZWkMqb0b.veT02fZkVdfVyjtQdSYsgW4hnxNalVa	2022-08-05 23:15:02.394159
-3	Anderson Salgado Doce	salgado.doce@gmail.com	$2b$10$PJVnPvD4j3wsOn97TpHSWe9QkXhjsbsYnIHpd7BrZBDHTNeln4ux2	2022-08-05 23:15:27.037832
-4	Alice	alice@gmail.com	$2b$10$BsaBJU1r7WdC5ZAVDF7Iu.dqX6sZAnOL7YNFagIEPHfZoUuOaSTR.	2022-08-06 10:54:18.503522
-5	Alan	alan@gmail.com	$2b$10$jeSJnvf1r7oGoJSB8BhKeOoIr62yDHi1Qz0xQeVz0TPr4eAydjJle	2022-08-06 10:54:59.707332
+COPY public.users (id, name, email, password, "createdAt") FROM stdin;
+1	Ana Júlia	ana.julia@gmail.com	$2b$10$EOlo3.cajuIHGuhx.E0jnOolkEuv1eekcJHXbE2ggdlvykSm66RWy	2022-08-07 10:06:14.955727
+2	Bernado Souza	bernardo.souza@gmail.com	$2b$10$vaanZ.5b2xpOCXSV9RVy9OU3VQPh9BCP8Vk.7YGT2QyVtv82Wj.2G	2022-08-07 10:06:57.359785
+3	Anderson Salgado	anderson.salgado@gmail.com	$2b$10$ira2PBYR2w5NkNuqyUFqoeDn.j68xMY9Ur9Nc8NVp983IokDTUWcG	2022-08-07 10:07:24.776734
+4	Alice Silva	alice.silva@gmail.com	$2b$10$17CXTAWF2M2nKKayHPzn6eXkZAVq6lOFEhOmtAT1nYw6EWhOYQZIu	2022-08-07 10:07:56.329772
+5	Alan Brusco	alan.brusco@gmail.com	$2b$10$XNG3iLuarwM8Pq.QSCqzfej2nzo3v/qpCCf3PVIbnN8vjS9FW0xIK	2022-08-07 10:08:44.358011
 \.
 
 
@@ -153,6 +154,14 @@ SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 
 ALTER TABLE ONLY public.urls
     ADD CONSTRAINT urls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
 
 
 --
